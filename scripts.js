@@ -1,13 +1,32 @@
+let currentSort = { column: null, ascending: true };
+let currentData = [];
+
 async function loadData() {
   const sparData = await fetch('spar_extended_data.json').then(res => res.json());
 
+  currentData = sparData;
   populateFilters(sparData);
   renderTable(sparData);
 
   document.querySelectorAll('select, input').forEach(input => {
     input.addEventListener('input', () => {
       const filtered = filterData(sparData);
+      currentData = filtered;
       renderTable(filtered);
+    });
+  });
+
+  document.querySelectorAll('#dataTable thead th').forEach((th, index) => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.key;
+      if (!key) return;
+      if (currentSort.column === key) {
+        currentSort.ascending = !currentSort.ascending;
+      } else {
+        currentSort = { column: key, ascending: true };
+      }
+      const sorted = sortData([...currentData], key, currentSort.ascending);
+      renderTable(sorted);
     });
   });
 }
@@ -48,6 +67,22 @@ function filterData(data) {
     (isNaN(sparMin) || parseFloat(d['Career SPAR']) >= sparMin) &&
     (isNaN(sparMax) || parseFloat(d['Career SPAR']) <= sparMax)
   );
+}
+
+function sortData(data, key, ascending) {
+  return data.sort((a, b) => {
+    let valA = a[key], valB = b[key];
+    if (!isNaN(valA) && !isNaN(valB)) {
+      valA = parseFloat(valA);
+      valB = parseFloat(valB);
+    } else {
+      valA = valA?.toString().toLowerCase();
+      valB = valB?.toString().toLowerCase();
+    }
+    if (valA < valB) return ascending ? -1 : 1;
+    if (valA > valB) return ascending ? 1 : -1;
+    return 0;
+  });
 }
 
 function renderTable(data) {
