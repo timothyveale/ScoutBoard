@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NHL Draft SPAR Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <h1>NHL Draft SPAR Dashboard</h1>
+  <div class="filters">
+    <label>Team: <select id="teamFilter"></select></label>
+    <label>Year: <select id="yearFilter"></select></label>
+    <label>Round: <select id="roundFilter"></select></label>
+    <label>Position Type: <select id="positionFilter"></select></label>
+  </div>
+  <div id="charts">
+    <div id="teamChart" class="chart"></div>
+    <div id="roundChart" class="chart"></div>
+    <div id="positionChart" class="chart"></div>
+  </div>
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>Draft Year</th>
+        <th>Draft Team</th>
+        <th>Round</th>
+        <th>Overall Pick</th>
+        <th>Draft Position</th>
+        <th>First NHL Season</th>
+        <th>Last NHL Season</th>
+        <th>Position</th>
+        <th>Position Type</th>
+        <th>Career SPAR</th>
+        <th>Total SPAR</th>
+        <th>Players Drafted</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <script src="scripts.js"></script>
+</body>
+</html>
